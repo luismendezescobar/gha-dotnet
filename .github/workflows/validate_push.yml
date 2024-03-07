@@ -1,0 +1,56 @@
+name: C# Code Validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/luis
+    paths:
+      - 'HelloWorld/**'
+
+
+permissions:
+  contents: 'read'
+  id-token: 'write'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      name: Checkout code
+      
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '8.0.201' # Specify your dotnet version
+
+    - name: Install dependencies
+      run: dotnet restore HelloWorld
+
+    - name: Build
+      run: dotnet build HelloWorld --no-restore
+
+    - name: Test
+      run: dotnet test HelloWorld.Tests/
+      id: tests
+
+    - name: Post test results
+      if: always() # This ensures the step runs even if the tests fail
+      uses: actions/github-script@v3
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          const output = `
+          ## Test Results
+          \`\`\`
+          ${steps.tests.outputs}
+          \`\`\`
+          `;
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: output
+          })
