@@ -3,7 +3,7 @@ name: C# Code Validation
 on:
   push:
     branches:
-      - feature/*
+      - feature/luis
 
 jobs:
   build-and-test:
