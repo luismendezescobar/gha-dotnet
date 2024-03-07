@@ -36,21 +36,21 @@ jobs:
       run: dotnet test HelloWorld.Tests/
       id: tests
 
-    - name: Post test results
-      if: always() # This ensures the step runs even if the tests fail
-      uses: actions/github-script@v6
-      with:
-        github-token: ${{secrets.GITHUB_TOKEN}}
-        script: |
-          const output = `
-          ## Test Results
-          \`\`\`
-          ${{ steps.tests.outputs }}
-          \`\`\`
-          `;
-          github.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: output
-          })
+#    - name: Post test results
+#      if: always() # This ensures the step runs even if the tests fail
+#      uses: actions/github-script@v6
+#      with:
+#        github-token: ${{secrets.GITHUB_TOKEN}}
+#        script: |
+#          const output = `
+#          ## Test Results
+#          \`\`\`
+#          ${{ steps.tests.outputs }}
+#          \`\`\`
+#          `;
+#          github.issues.createComment({
+#            issue_number: context.issue.number,
+#            owner: context.repo.owner,
+#            repo: context.repo.repo,
+#            body: output
+#          })
