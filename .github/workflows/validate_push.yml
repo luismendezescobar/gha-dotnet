@@ -1,9 +1,12 @@
 name: C# Code Validation
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - feature/luis
+    paths:
+      - 'HelloWorld'
 
 jobs:
   build-and-test:
