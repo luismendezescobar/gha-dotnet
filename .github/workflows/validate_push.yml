@@ -38,7 +38,7 @@ jobs:
 
     - name: Post test results
       if: always() # This ensures the step runs even if the tests fail
-      uses: actions/github-script@v3
+      uses: actions/github-script@v6
       with:
         github-token: ${{secrets.GITHUB_TOKEN}}
         script: |
