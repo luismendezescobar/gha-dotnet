@@ -6,7 +6,7 @@ on:
     branches:
       - feature/luis
     paths:
-      - 'HelloWorld'
+      - 'HelloWorld/**'
 
 
 permissions:
